@@ -16,9 +16,17 @@ int main(int argc, char **argv){
 	char ch;
 	//copying the file content as the string
 	char *file_content=cpy_file_to_str(fp);
+	if(file_content==0){
+		printf("Memory allocation failed\n");
+		fclose(fp);
+		return 1;
+	}
 	
 	//comment removal function call
 	comment_removal(file_content);
+	
+	//macro replacement function call
+	macro_replacement(&file_content);
 	
 	//changing the name of file to *.i file and creating the file
 	int len=strlen(argv[1]);
@@ -26,16 +34,19 @@ int main(int argc, char **argv){
 	FILE *fp2=fopen(argv[1],"w");
 	if(fp2==0){
 		printf("File Could Not Be Created\n");
+		free(file_content);
+		fclose(fp);
 		return 1;
 	}
+	
 	//file inclusion function call
 	file_inclusion(file_content,fp2);
 	
-	//macro replacement function call
-	macro_replacement(&file_content);
-	printf("%s\n",file_content);
 	
-
+	
+	//printf("%s\n",file_content);
+	
+	//Writting into file
 	i=0;
 	while(ch=file_content[i]){
 		fputc(ch,fp2);

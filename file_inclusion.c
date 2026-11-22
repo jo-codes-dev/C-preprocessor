@@ -20,6 +20,7 @@ void file_inclusion(char *s , FILE *fp2){
 				q++;
 			}
 			file_name[k]='\0';
+			if(*q!='>'){ printf("Invalid inclusion directive\n"); return;}
 			for(char *i=start; i<=q ;i++)
 				*i=' ';
 		}else if(*q=='"'){
@@ -32,8 +33,11 @@ void file_inclusion(char *s , FILE *fp2){
 				q++;
 			}
 			file_name[k]='\0';
+			if(*q!='"'){ printf("Invalid inclusion directive\n"); return;}
 			for(char *i=start; i<=q ;i++)
 				*i=' ';
+		}else{
+			printf("Invalid inclusion directive\n");
 		}
 		if(symbol=='<'){
 			sprintf(path,"/usr/include/%s",file_name);
@@ -60,7 +64,7 @@ void file_inclusion(char *s , FILE *fp2){
 			fseek(temp,0,SEEK_END);
 			int size = ftell(temp);
 			rewind(temp);
-			char ch;
+			int ch;
 			while((ch=fgetc(temp))!=EOF){
 				fputc(ch,fp2);
 			}

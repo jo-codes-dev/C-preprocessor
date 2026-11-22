@@ -5,10 +5,12 @@ char *cpy_file_to_str(FILE *fp){
 	while(fgetc(fp)!=EOF)c++;
 	rewind(fp);
 	char *file_content=malloc(c+1);
+	if(file_content==NULL) return NULL;
 	char ch;
 	i=0;
 	while((ch=fgetc(fp))!=EOF)
 		file_content[i++]=ch;
+	file_content[i]='\0';
 	rewind(fp);
 	return file_content;
 
